@@ -22,22 +22,17 @@ def newsSentence(row):  #headline, content, link 반복되는 문장
 
 conn = sqlite3.connect(os.path.dirname(os.path.realpath(__file__))+"/../db.sqlite3")
 cur = conn.cursor()
-sql="select strftime('%Y.%m.%d.%w','now','localtime')"
-cur.execute(sql)
+now=datetime.datetime.now()
+t_year=now.year
+t_month=now.month
+t_day=now.day
+t_dow=now.weekday()  #0:일요일, 1:월요일, 2:화요일, 3:수요일, 4:목요일, 5:금요일, 6:토요일
+pastday=(now-datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+if (t_dow==1):
+    pastday=(now-datetime.timedelta(days=3)).strftime('%Y-%m-%d')
 
-today=str(cur.fetchall().pop())
-today=today.split("'")[1].split(".")
-
-t_year=today[0]
-t_month=today[1]
-t_day=today[2]
-t_dow=today[3]  #0:일요일, 1:월요일, 2:화요일, 3:수요일, 4:목요일, 5:금요일, 6:토요일
-t_pastday=str(int(t_day)-1)
-if (t_dow=="1"):
-    t_pastday=str(int(t_day)-3)
-
-s_today='{0}-{1}-{2} 09:00'.format(t_year,t_month,t_day)    #메일 발송 시간
-s_pastday='{0}-{1}-{2} 09:00'.format(t_year,t_month,t_pastday)  #이전 발송 시간
+s_today='{0} 09:00'.format(now.strftime('%Y-%m-%d'))    #메일 발송 시간
+s_pastday='{0} 09:00'.format(pastday)  #이전 발송 시간
 
 sql="select headline, content, link from news_news_table where newsTime BETWEEN '{0}' AND '{1}'".format(s_pastday,s_today)
 cur.execute(sql)

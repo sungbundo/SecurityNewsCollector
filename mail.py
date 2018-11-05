@@ -26,12 +26,12 @@ now=datetime.datetime.now()
 t_year=now.year
 t_month=now.month
 t_day=now.day
-t_dow=now.weekday()  #0:일요일, 1:월요일, 2:화요일, 3:수요일, 4:목요일, 5:금요일, 6:토요일
-pastday=(now-datetime.timedelta(days=1)).strftime('%Y-%m-%d')
-if (t_dow==1):
-    pastday=(now-datetime.timedelta(days=3)).strftime('%Y-%m-%d')
+t_dow=now.weekday()  #0:월요일, 1:화요일, 2:수요일, 3:목요일, 4:금요일, 5:토요일, 6:일요일
+pastday=(now-datetime.timedelta(days=1)).strftime(r'%Y-%m-%d')
+if (t_dow==0):
+    pastday=(now-datetime.timedelta(days=3)).strftime(r'%Y-%m-%d')
 
-s_today='{0} 09:00'.format(now.strftime('%Y-%m-%d'))    #메일 발송 시간
+s_today='{0} 09:00'.format(now.strftime(r'%Y-%m-%d'))    #메일 발송 시간
 s_pastday='{0} 09:00'.format(pastday)  #이전 발송 시간
 
 sql="select headline, content, link from news_news_table where newsTime BETWEEN '{0}' AND '{1}'".format(s_pastday,s_today)

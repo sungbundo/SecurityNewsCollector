@@ -20,6 +20,5 @@ python3.7, beautifulsoup4 와 django 2.1를 기준으로 작성하였습니다.
 
 ## 운영예시
 Ubuntu + Apache + Django + Python3.5 환경
-http://106.10.44.192/
 
 이 저장소는 서버 설정 부분은 포함하지 않습니다.
